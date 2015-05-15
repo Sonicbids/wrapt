@@ -67,7 +67,7 @@ def register_post_import_hook(hook, name):
 
     hooks = _post_import_hooks.get(name, None)
 
-    if hooks is None:
+    if not hooks:
         # No prior registration of post import hooks for the target
         # module. We need to check whether the module has already been
         # imported. If it has we fire the hook immediately and add an
@@ -83,13 +83,6 @@ def register_post_import_hook(hook, name):
 
         else:
             _post_import_hooks[name] = [hook]
-
-    elif hooks == []:
-        # A prior registration of port import hooks for the target
-        # module was done and the hooks already fired. Fire the hook
-        # immediately.
-
-        hook(module)
 
     else:
         # A prior registration of port import hooks for the target
